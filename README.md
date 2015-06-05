@@ -1,8 +1,6 @@
-# My NW.js+Angular App
+# Happy Reader
 
-> a skeleton NW.js+Angular app
-
-A skeleton NW.js (node-webkit) & Angular app to get started quickly, without the unnecessary bloat of some generators.
+> a csv viewer for the big-data world
 
 ## Requirements
 
@@ -14,9 +12,8 @@ A skeleton NW.js (node-webkit) & Angular app to get started quickly, without the
 
 1. clone this repository into `<app folder>`
 2. `$ cd <app folder>`
-3. remove the version control of this repository `$ rm -rf .git`
-4. `$ npm install`
-5. `$ bower install`
+3. `$ npm install`
+4. `$ bower install`
 
 ## Configuring App
 
