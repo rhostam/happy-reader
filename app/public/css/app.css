@@ -1,0 +1,12 @@
+body {
+    background: #eceff1;
+    height: 100%;
+}
+
+#holder { border: 5px dashed #ccc; width: 100%; height: 50%; margin-top: 20px;}
+#holder.hover { border: 5px dashed #333; }
+
+.drag-drop-text {
+	font-weight: 600;
+	color: #9e9e9e;
+}

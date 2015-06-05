@@ -1,0 +1,30 @@
+{
+  "name": "happy-reader",
+  "version": "0.1.0",
+  "authors": [
+    "Salar Sayyad <salar.sayyad@gmail.com>"
+  ],
+  "description": "",
+  "main": "app/index.html",
+  "keywords": [
+    "nw",
+    "node-webkit",
+    "node-webkit-builder",
+    "gulp",
+    "skeleton"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/public/libs",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.0",
+    "materialize": "~0.96.1",
+    "ng-file-upload": "~4.2.4"
+  }
+}
