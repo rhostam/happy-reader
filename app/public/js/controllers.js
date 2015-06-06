@@ -1,6 +1,12 @@
 'use strict';
 
 app.controller('MainCtrl', ['$rootScope', '$scope', 'Window', 'FileReader', function($rootScope, $scope, Window, fr) {
+	Array.prototype.swap = function(a, b) {
+		var temp = this[a];
+		this[a] = this[b];
+		this[b] = temp;
+	};
+
 	$rootScope.fileOpened = false;
 	$scope.isProcessing = false;
 	$scope.fileInfo = {};
@@ -36,7 +42,8 @@ app.controller('MainCtrl', ['$rootScope', '$scope', 'Window', 'FileReader', func
 		$scope.lines = fr.parseLines(fr.getSlice($scope.attrs.startIndex, $scope.attrs.startIndex + $scope.attrs.viewLimit));
 		$scope.header = fr.getHeader();
 		for(var i = 0; i < $scope.header.length; i++){
-			$scope.attrs.selectedFields.push({name: $scope.header[i], isSelected: true});
+			$scope.attrs.selectedFields.push({name: $scope.header[i], isSelected: true, order: i, initOrder: i});
+			console.log("selectedField: " + $scope.attrs.selectedFields[i].name + $scope.attrs.selectedFields[i].order);
 		}
 		$rootScope.fileOpened = true;
 		$scope.isProcessing = false;
@@ -65,8 +72,22 @@ app.controller('MainCtrl', ['$rootScope', '$scope', 'Window', 'FileReader', func
 		$scope.lines = fr.parseLines(fr.getSlice($scope.attrs.startIndex, $scope.attrs.startIndex + $scope.attrs.viewLimit));
 	};
 
-	$scope.cellFilter = function(e){
-		return e.isSelected;
+	var swapFields = function(iA, iB){
+
+	};
+
+	$scope.moveFieldUp = function(i){
+		console.log("moveFieldUp("+i+")");
+		$scope.attrs.selectedFields[i].order -= 1;
+		$scope.attrs.selectedFields[i-1].order += 1;
+		$scope.attrs.selectedFields.swap(i, i-1);
+	};
+
+	$scope.moveFieldDown = function(i){
+		console.log("moveFieldDown("+i+")");
+		$scope.attrs.selectedFields[i].order += 1;
+		$scope.attrs.selectedFields[i+1].order -= 1;
+		$scope.attrs.selectedFields.swap(i, i+1);
 	};
 
 	$scope.closeWindow = function(){

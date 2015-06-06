@@ -63,15 +63,14 @@
 		<h4>Field Selector</h4>
 		<form action="#">
 			<ul>
-				<li ng-repeat="field in attrs.selectedFields track by $index">
+				<li ng-repeat="(fIndex, field) in attrs.selectedFields track by $index">
 					<input type="checkbox" id="chkbox{{$index}}" ng-model="field.isSelected" />
-      				<label for="chkbox{{$index}}">{{field.name}}</label>
+      				<label class="flow-text" for="chkbox{{$index}}">{{field.name}}</label>
+      				<a href="#!" ng-hide="$first" ng-click="moveFieldUp(fIndex)"><i class="tiny mdi-hardware-keyboard-arrow-up"></i></a>
+      				<a href="#!" ng-hide="$last" ng-click="moveFieldDown(fIndex)"><i class="tiny mdi-hardware-keyboard-arrow-down"></i></a>
 				</li>
 			</ul>
 		</form>
-	</div>
-		<div class="modal-footer">
-		<a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Select</a>
 	</div>
 </div>
 
@@ -80,13 +79,13 @@
 		<table class="hoverable">
 			<thead>
 				<tr>
-					<th ng-repeat="field in attrs.selectedFields | filter:cellFilter track by $index">{{field.name}}</th>
+					<th ng-repeat="field in attrs.selectedFields track by $index" ng-if="field.isSelected">{{field.name}}</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat="line in lines track by $index">
-					<td ng-repeat="cell in line track by $index" ng-if="attrs.selectedFields[$index].isSelected">
-						{{cell}}
+					<td ng-repeat="field in attrs.selectedFields track by $index" ng-if="field.isSelected">
+						{{line[field.initOrder]}}
 					</td>
 				</tr>
 			</tbody>

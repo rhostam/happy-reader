@@ -2,6 +2,18 @@
 
 > a csv viewer for the big-data world
 
+## Features
+
+* open csv/delimited data files
+* view specific ranges of data records
+* include/exclude fields
+* re-order fields
+* _rename fields_
+* _clean-up records (i.e. missing values)_
+* _save changes & ranges as a new data file_
+
+**_under development_**
+
 ## Requirements
 
 * node

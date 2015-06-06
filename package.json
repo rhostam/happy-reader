@@ -1,11 +1,11 @@
 {
   "name": "happy-reader",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "app/index.html",
   "window": {
     "title": "Happy Reader",
-    "toolbar": true,
-    "frame": true,
+    "toolbar": false,
+    "frame": false,
     "position": "center",
     "fullscreen": false,
     "resizable": true,
