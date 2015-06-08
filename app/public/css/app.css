@@ -10,3 +10,8 @@ body {
 	font-weight: 600;
 	color: #9e9e9e;
 }
+
+#modal1 {
+	width: 25%;
+	min-width: 450px;
+}

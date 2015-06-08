@@ -72,22 +72,22 @@ app.controller('MainCtrl', ['$rootScope', '$scope', 'Window', 'FileReader', func
 		$scope.lines = fr.parseLines(fr.getSlice($scope.attrs.startIndex, $scope.attrs.startIndex + $scope.attrs.viewLimit));
 	};
 
-	var swapFields = function(iA, iB){
-
-	};
-
 	$scope.moveFieldUp = function(i){
 		console.log("moveFieldUp("+i+")");
-		$scope.attrs.selectedFields[i].order -= 1;
-		$scope.attrs.selectedFields[i-1].order += 1;
-		$scope.attrs.selectedFields.swap(i, i-1);
+		if(i > 0){
+			$scope.attrs.selectedFields[i].order -= 1;
+			$scope.attrs.selectedFields[i-1].order += 1;
+			$scope.attrs.selectedFields.swap(i, i-1);
+		}
 	};
 
 	$scope.moveFieldDown = function(i){
 		console.log("moveFieldDown("+i+")");
-		$scope.attrs.selectedFields[i].order += 1;
-		$scope.attrs.selectedFields[i+1].order -= 1;
-		$scope.attrs.selectedFields.swap(i, i+1);
+		if(i < $scope.attrs.selectedFields.length - 1){
+			$scope.attrs.selectedFields[i].order += 1;
+			$scope.attrs.selectedFields[i+1].order -= 1;
+			$scope.attrs.selectedFields.swap(i, i+1);
+		}
 	};
 
 	$scope.closeWindow = function(){

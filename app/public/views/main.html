@@ -59,18 +59,22 @@
 
 <!-- Modal Structure -->
 <div id="modal1" class="modal">
-	<div class="modal-content">
-		<h4>Field Selector</h4>
-		<form action="#">
-			<ul>
-				<li ng-repeat="(fIndex, field) in attrs.selectedFields track by $index">
-					<input type="checkbox" id="chkbox{{$index}}" ng-model="field.isSelected" />
-      				<label class="flow-text" for="chkbox{{$index}}">{{field.name}}</label>
-      				<a href="#!" ng-hide="$first" ng-click="moveFieldUp(fIndex)"><i class="tiny mdi-hardware-keyboard-arrow-up"></i></a>
-      				<a href="#!" ng-hide="$last" ng-click="moveFieldDown(fIndex)"><i class="tiny mdi-hardware-keyboard-arrow-down"></i></a>
-				</li>
-			</ul>
-		</form>
+	<div class="row modal-content">
+		<div class="col s3">
+			<h4>Field Selector</h4>
+		</div>
+		<div class="col s7 offset-s2">
+			<form action="#">
+				<ul>
+					<li ng-repeat="(fIndex, field) in attrs.selectedFields track by $index">
+						<input type="checkbox" id="chkbox{{$index}}" ng-model="field.isSelected" />
+	      				<label class="flow-text" for="chkbox{{$index}}">{{field.name}}</label>
+	      				<a href="#!" ng-hide="$first" ng-click="moveFieldUp(fIndex)"><i class="tiny mdi-hardware-keyboard-arrow-up"></i></a>
+	      				<a href="#!" ng-hide="$last" ng-click="moveFieldDown(fIndex)"><i class="tiny mdi-hardware-keyboard-arrow-down"></i></a>
+					</li>
+				</ul>
+			</form>
+		</div>
 	</div>
 </div>
 
@@ -79,11 +83,13 @@
 		<table class="hoverable">
 			<thead>
 				<tr>
+					<th></th>
 					<th ng-repeat="field in attrs.selectedFields track by $index" ng-if="field.isSelected">{{field.name}}</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat="line in lines track by $index">
+					<td>{{attrs.startIndex+$index}}</td>
 					<td ng-repeat="field in attrs.selectedFields track by $index" ng-if="field.isSelected">
 						{{line[field.initOrder]}}
 					</td>
