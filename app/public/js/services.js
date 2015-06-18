@@ -59,10 +59,10 @@ app.service('FileReader', function($rootScope) {
         return output;
     };
     this.checkFile = function(){
-        lr = new LineByLineReader(path, {skipEmptyLines: true});
         var sniffer = new CSVSniffer();
         var sampleLines = "";
         var lineNr = 0;
+        lr = new LineByLineReader(path, {skipEmptyLines: true});
 
         lr.on('error', function (err) {
             // 'err' contains error object
@@ -77,48 +77,49 @@ app.service('FileReader', function($rootScope) {
             //console.log(line);
             //console.log(lineNr);
 
+            if(!validFile && lineNr > 1){
+            	sampleLines = lines[0] + "\n" + lines[1] + "\n";
+                //TODO: try and catch this to see if file is valid
+                sniffResult = sniffer.sniff(sampleLines);
+                if(sniffResult){
+	                console.log("Sniff result: "+
+	                    "Newline string: "              +sniffResult.newlineStr+
+	                    "Delimiter: "                   +sniffResult.delimiter+
+	                    "Quote character: "             +sniffResult.quoteChar+
+	                    "First line contains labels: "  +sniffResult.hasHeader+
+	                    "Labels: "                      +sniffResult.labels+
+	                    "# Records: "                   +sniffResult.records.length
+	                );
+
+	                fileChecked = true;
+	                validFile = true;
+
+	                parseAttrs.delim = sniffResult.delimiter;
+	                parseAttrs.rowDelim = sniffResult.newlineStr;
+	                parseAttrs.quoteChar = sniffResult.quoteChar;
+
+	                if(sniffResult.hasHeader){
+                    	header = sniffResult.labels;
+	                }else{
+	                    var sampleLine = this.parseLine(lines[0]);
+
+	                    for(var i = 0; i < sampleLine.length; i++){
+	                        header.push("Field1");
+	                    }
+	                }
+
+	                console.log("file valid.");
+	                $rootScope.$broadcast('fileChecked');
+	                $rootScope.$digest();
+            	}
+            }
+
             lr.resume();
         });
 
         lr.on('end', function () {
-            if(lineNr > 1){
-                sampleLines = lines[0] + "\n" + lines[1] + "\n";
-                //TODO: try and catch this to see if file is valid
-                sniffResult = sniffer.sniff(sampleLines);
-                console.log("Sniff result: "+
-                    "Newline string: "              +sniffResult.newlineStr+
-                    "Delimiter: "                   +sniffResult.delimiter+
-                    "Quote character: "             +sniffResult.quoteChar+
-                    "First line contains labels: "  +sniffResult.hasHeader+
-                    "Labels: "                      +sniffResult.labels+
-                    "# Records: "                   +sniffResult.records.length
-                );
-
-                fileChecked = true;
-                validFile = true;
-            }
-
-            if(sniffResult){
-                parseAttrs.delim = sniffResult.delimiter;
-                parseAttrs.rowDelim = sniffResult.newlineStr;
-                parseAttrs.quoteChar = sniffResult.quoteChar;
-
-                //Check if file has header, otherwise assign generic header
-                if(sniffResult.hasHeader){
-                    header = sniffResult.labels;
-                }else{
-                    var sampleLine = this.parseLine(lines[0]);
-
-                    for(var i = 0; i < sampleLine.length; i++){
-                        header.push("Field1");
-                    }
-                }
-            }
-
             if(validFile){
                 console.log("file valid and closed.");
-                $rootScope.$broadcast('fileChecked');
-                $rootScope.$digest();
             }else{
                 console.log("file not valid and closed.");
             }

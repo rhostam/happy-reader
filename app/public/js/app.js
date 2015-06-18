@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('app', ['ngFileUpload'])
+var app = angular.module('app', ['ngFileUpload','ui.materialize','floatThead'])
 	.factory('GUI', function() {
         return require('nw.gui');
     })

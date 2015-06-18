@@ -1,6 +1,6 @@
 {
   "name": "happy-reader",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "authors": [
     "Salar Sayyad <salar.sayyad@gmail.com>"
   ],
@@ -26,6 +26,10 @@
   "dependencies": {
     "angular": "~1.4.0",
     "materialize": "~0.96.1",
-    "ng-file-upload": "~4.2.4"
+    "ng-file-upload": "~4.2.4",
+    "angular-datatables": "~0.4.3",
+    "angular-materialize": "*",
+    "floatThead": "~1.2.12",
+    "angular-float-thead": "~0.0.1"
   }
 }
