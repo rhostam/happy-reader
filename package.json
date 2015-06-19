@@ -1,6 +1,6 @@
 {
   "name": "happy-reader",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "main": "app/index.html",
   "window": {
     "title": "Happy Reader",
@@ -9,10 +9,10 @@
     "position": "center",
     "fullscreen": false,
     "resizable": true,
-    "width": 1000,
-    "height": 600,
-    "min_width": 600,
-    "min_height": 400
+    "width": 1280,
+    "height": 800,
+    "min_width": 800,
+    "min_height": 650
   },
   "devDependencies": {
     "gulp": "^3.8.11",

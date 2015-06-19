@@ -10,6 +10,11 @@
 						<i class="mdi-file-folder-open blue-grey-text text-lighten-4"></i>
 					</a>
 				</li>
+				<li ng-if="fileOpened">
+					<a href="#!">
+						<i class="mdi-content-save blue-grey-text text-lighten-4"></i>
+					</a>
+				</li>
 			</ul>
 			<ul class="right" style="-webkit-app-region: no-drag;">
 				<li>
@@ -49,7 +54,7 @@
 	<div class="col s4 l4 offset-l1 valign">
 		<form action="#" ng-if="attrs.selectedFields.length > attrs.fieldLimit">
 			<p class="range-field">
-				<input type="range" id="fieldRange" ng-model="attrs.fieldStartIndex" min="0" max="{{attrs.selectedFields.length - attrs.fieldLimit}}" />
+				<input type="range" id="fieldRange" ng-model="attrs.fieldStartIndex" ng-change="attrs.viewableFields = getViewableFields()" min="0" max="{{attrs.selectedFields.length - attrs.fieldLimit}}" />
 			</p>
 		</form>
 	</div>
@@ -87,7 +92,7 @@
 		<div class="col s7 offset-s2">
 			<form action="#">
 				<ul>
-					<li ng-repeat="field in getViewableFields() track by $index">
+					<li ng-init="attrs.viewableFields = getViewableFields()" ng-repeat="field in attrs.viewableFields track by $index">
 						<input type="checkbox" id="chkbox{{$index}}" ng-model="field.isSelected" ng-change="toggleFieldSelect(field.order)" />
 	      				<label class="flow-text" for="chkbox{{$index}}">{{field.name}}</label>
 	      				<a href="#!" ng-hide="$first" ng-click="moveFieldUp(field.order)"><i class="tiny mdi-hardware-keyboard-arrow-up"></i></a>
@@ -101,19 +106,19 @@
 <!-- FIELD SELECTOR MODAL / end -->
 
 <!-- MAIN DATA TABLE -->
-<div id="mainTableDiv" class="row" ng-show="fileOpened">
+<div id="mainTableDiv" class="row" ng-if="fileOpened">
 	<div class="col s12">
-		<table id="mainTable" class="mainTable hoverable z-depth-1" float-thead="floatTheadOptions" ng-if="fileOpened">
+		<table id="mainTable" class="mainTable hoverable z-depth-1" float-thead="floatTheadOptions" ng-init="attrs.viewableFields = getViewableFields()">
 			<thead>
 				<tr>
 					<th></th>
-					<th ng-repeat="field in getViewableFields() track by $index" ng-if="field.isSelected">{{field.name}}</th>
+					<th ng-repeat="field in attrs.viewableFields track by $index" ng-if="field.isSelected">{{field.name}}</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat="line in lines track by $index">
 					<td class="mainTableIndex">{{attrs.startIndex+$index}}</td>
-					<td ng-repeat="field in getViewableFields() track by $index" ng-if="field.isSelected">
+					<td ng-repeat="field in attrs.viewableFields track by $index" ng-if="field.isSelected">
 						{{line[field.initOrder]}}
 					</td>
 				</tr>

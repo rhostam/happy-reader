@@ -18,7 +18,8 @@ app.controller('MainCtrl', ['$rootScope', '$scope', 'Window', 'FileReader', func
 		fieldStartIndex: 0,
 		fieldLimit: 15,
 		numDeselectedFields: 0,
-		selectedFields: []
+		selectedFields: [],
+		viewableFields: []
 	};
 
 	$scope.floatTheadOptions = {
@@ -41,6 +42,7 @@ app.controller('MainCtrl', ['$rootScope', '$scope', 'Window', 'FileReader', func
 				$scope.attrs.fieldStartIndex = 0;
 				$scope.attrs.numDeselectedFields = 0;
 				$scope.attrs.selectedFields = [];
+				$scope.attrs.viewableFields = [];
 			}
 			$scope.fileInfo = files[0];
 			console.log("file: " + $scope.fileInfo.path);
@@ -66,6 +68,8 @@ app.controller('MainCtrl', ['$rootScope', '$scope', 'Window', 'FileReader', func
 			console.log(newVal + ", " + oldVal);
 			if(newVal && newVal != oldVal){
 				$scope.lines = fr.parseLines(fr.getSlice(newVal, newVal + $scope.attrs.viewLimit));
+
+				$('#mainTable').floatThead('reflow');
 			}
 		}
 	);
@@ -73,15 +77,21 @@ app.controller('MainCtrl', ['$rootScope', '$scope', 'Window', 'FileReader', func
 	$scope.seekRecord = function(){
 		$scope.attrs.viewLimit += 1;
 		$scope.lines.push(fr.parseLine(fr.getLine($scope.attrs.startIndex + $scope.attrs.viewLimit)));
+
+		$('#mainTable').floatThead('reflow');
 	};
 
 	$scope.changeStartIndex = function(){
 		console.log("changeStartIndex(): " + $scope.attrs.startIndex);
 		$scope.lines = fr.parseLines(fr.getSlice($scope.attrs.startIndex, $scope.attrs.startIndex + $scope.attrs.viewLimit));
+
+		$('#mainTable').floatThead('reflow');
 	};
 
 	$scope.changeViewLimit = function(){
 		$scope.lines = fr.parseLines(fr.getSlice($scope.attrs.startIndex, $scope.attrs.startIndex + $scope.attrs.viewLimit));
+
+		$('#mainTable').floatThead('reflow');
 	};
 
 	$scope.getViewableFields = function(){
@@ -119,6 +129,8 @@ app.controller('MainCtrl', ['$rootScope', '$scope', 'Window', 'FileReader', func
 		if($scope.attrs.fieldStartIndex > 1 && $scope.attrs.fieldStartIndex > max){
 			$scope.attrs.fieldStartIndex -= 1;
 		}
+
+		$scope.attrs.viewableFields = $scope.getViewableFields();
 	};
 
 	$scope.moveFieldUp = function(i){
@@ -128,6 +140,8 @@ app.controller('MainCtrl', ['$rootScope', '$scope', 'Window', 'FileReader', func
 			$scope.attrs.selectedFields[i].order -= 1;
 			$scope.attrs.selectedFields[i-1].order += 1;
 			$scope.attrs.selectedFields.swap(i, i-1);
+
+			$scope.attrs.viewableFields = $scope.getViewableFields();
 		}
 	};
 
@@ -138,6 +152,8 @@ app.controller('MainCtrl', ['$rootScope', '$scope', 'Window', 'FileReader', func
 			$scope.attrs.selectedFields[i].order += 1;
 			$scope.attrs.selectedFields[i+1].order -= 1;
 			$scope.attrs.selectedFields.swap(i, i+1);
+
+			$scope.attrs.viewableFields = $scope.getViewableFields();
 		}
 	};
 
